@@ -1,0 +1,56 @@
+﻿apiVersion: backstage.io/v1alpha1 ##Siempre va por defecto (hasta que BS actualice el apiVersion)##
+kind: Component ##ver documentacion: https://backstage.io/docs/features/software-catalog/descriptor-format##
+metadata:
+  name: ad-feature-store ##Nombre repo##
+  description: ##Que hace el proyecto##
+  labels: ##informacion o caracteristicas adicionales del proyecto ##ver documentacion: https://backstage.io/docs/features/software-catalog/descriptor-format#labels-optional##
+    sistemaorigen: nifi2
+    sistemadestino: teradata2
+    tecnologiaversion: go1.15.3
+    categoria: music
+  tags: ##Palabras claves ej:lenguaje,etc, va en minuscula##
+    - api
+    - crud
+    - java
+  annotations: ##ver documentacion: https://backstage.io/docs/features/software-catalog/descriptor-format/#annotations-optional##
+    sonarqube.org/project-key: ad-feature-store ##nombre del proyecto en sonar##
+    dev.azure.com/project: GCIT-Agile ##proyecto azure##
+    dev.azure.com/build-definition: ad-feature-store ##nombre repo##
+    dev.azure.com/project-repo: ad-feature-store ##nombre repo##
+spec: ##ver documentacion: https://backstage.io/docs/features/software-catalog/descriptor-format/#spec-varies##
+  type: service ##service, website, worker, library, modelos, o el tipo de proyecto que sea##
+  lifecycle: desarrollo ##Desarrollo, QA, PDN##
+  owner: arquitectura ##Area dueña del proyecto en soluciones##
+  system: compute-engine-gcp ##Ej: Sinco(Clearpath), SAP, Sistema donde esta desplegado, OKS, AKS, etc.##
+  dependsOn: ##Recursos utilizados bd, colas, api, topic, etc##
+    - resource:default/testbackstage-db
+  providesApis: ##A quien le provee información, quien consume la api##
+    - ad-feature-store
+  consumesApis: ##A quien consumo, colas, topicos, etc.##
+    - test-ocr
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: API ##ver documentacion: https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api##
+metadata:
+  name: ##Nombre de la API##
+  description: ##Descripción de la API##
+spec:
+  type: openapi ##openapi, asyncapi, graphql, grpc##
+  lifecycle: desarrollo ##ambiente de la API, desarrollo, calidad, produccion##
+  owner: arquitectura ##Dueño del proyecto en soluciones##
+  system: compute-engine-gcp ##Sistema al que pertenece la API##
+  definition: | ##swagger en yaml o json, documentación del api puede ser definido en este archivo o referenciar uno externo, https://backstage.io/docs/features/software-catalog/descriptor-format#specdefinition-required##
+
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: testbackstage-db ##Nombre del recurso, en minuscula y con guion)##
+  description: BD tecnologia teradata tabla pruebas  ##Descripcion del recurso a crear##
+spec:
+  type: database ##Tipo de recurso utilizado Ej: database, https://backstage.io/docs/features/software-catalog/descriptor-format#spectype-required-4##
+  owner: SAV ##Área de soluciones dueña del proyecto##
+  system: teradata ##sistema donde esta desplegado o reside el recurso Ej: teradata##
