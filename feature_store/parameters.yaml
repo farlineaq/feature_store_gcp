@@ -1,0 +1,6 @@
+project_id: co-grupoexito-mlopsad-dev
+zone: us-east1
+bq_path: co-grupoexito-mlopsad-dev.mlops_feature_store.maestro_plus
+feature_group_id: maestro_plus
+entity_columns:
+  - PluID
